@@ -2,50 +2,59 @@ import {
   fetchNewsList, 
   fetchAskList, 
   fetchJobsList, 
+  fetchList,
   fetchUserInfo,
   fetchItemInfo,
-} from "../api"
+} from "../api/index.js"
 export default {
-  FETCH_NEWS({ commit }) {
-    fetchNewsList()
-      .then(({ data }) => {
-        commit("SET_NEWS", data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  async FETCH_NEWS(context) {
+    try {
+      const response = await fetchNewsList();
+      context.commit("SET_NEWS", response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  FETCH_ASK({ commit }) {
-    fetchAskList()
-      .then(({ data }) => {
-        commit("SET_ASK", data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  async FETCH_ASK({ commit }) {
+    try {
+      const response = await fetchAskList();
+      commit("SET_ASK", response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  FETCH_JOBS(context) {
-    fetchJobsList()
-      .then((response) => {
-        context.commit("SET_JOBS", response.data);
-      })
+  async FETCH_JOBS(context) {
+    try {
+      const response = await fetchJobsList();
+      context.commit("SET_JOBS", response.data);
+      return response;
+    } catch(error) {
+      console.log(error);
+    }
   },
-  FETCH_USER({ commit }, name) {
-    fetchUserInfo(name)
-      .then(({ data }) => {
-        commit("SET_USER", data)
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  async FETCH_USER(context, name) {
+    try {
+      const response = await fetchUserInfo(name);
+      context.commit("SET_USER", response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  FETCH_ITEM(context, item) {
-    fetchItemInfo(item)
-      .then(response => {
-        context.commit("SET_ITEM", response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  async FETCH_ITEM(context, item) {
+    try {
+      const response = await fetchItemInfo(item);
+      context.commit("SET_ITEM", response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async FETCH_LIST({ commit }, pageName) {
+    const response = await fetchList(pageName);
+    commit("SET_LIST", response.data);
+    return response;
   }
 }

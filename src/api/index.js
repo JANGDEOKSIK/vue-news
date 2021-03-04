@@ -18,6 +18,16 @@ function fetchJobsList() {
   return axios.get(`${config.baseUrl}jobs/1.json`);
 }
 
+async function fetchList(pageName) {
+  try {
+    return await axios.get(`${config.baseUrl}${pageName}/1.json`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 function fetchUserInfo(username) {
   return axios.get(`${config.baseUrl}user/${username}.json`);
 }
@@ -30,6 +40,7 @@ export {
   fetchNewsList,
   fetchAskList,
   fetchJobsList,
+  fetchList,
   fetchUserInfo,
   fetchItemInfo,
 }
